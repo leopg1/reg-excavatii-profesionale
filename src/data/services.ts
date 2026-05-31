@@ -148,4 +148,20 @@ export const services: Service[] = [
       "Excavator CAT încărcând molozul într-un autocamion basculant, pe o curte îngustă.",
     ]),
   },
+  {
+    slug: "instalatii-sanitare",
+    index: "08",
+    title: "Instalații sanitare și încălzire",
+    label: "Instalații",
+    layout: "feature",
+    lead: "Montaj de centrale termice, calorifere și obiecte sanitare: WC, chiuvete și instalațiile aferente, executate curat și verificate.",
+    body: "Pe lângă săpături, ne ocupăm și de partea de instalații din interior: montăm centrale termice și calorifere, facem instalația de încălzire și sanitară, montăm obiecte (WC, chiuvete, baterii) și racordurile lor. Lucrăm îngrijit și predăm totul funcțional.",
+    photos: load("instalatii-sanitare", [
+      "Centrală termică montată pe perete, cu racordurile de cupru și robineții executate ordonat.",
+      "Montajul unui calorifer pe perete, finisat curat într-o încăpere amenajată.",
+      "Sistem de încălzire cu centrală și tubulatură, montat și conectat pe traseu.",
+      "Montaj de vas WC, cu rezervorul așezat și pregătit pentru racord.",
+      "Pregătirea blatului pentru montajul unei chiuvete, cu decupajul verificat.",
+    ]),
+  },
 ];
