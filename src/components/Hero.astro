@@ -24,18 +24,19 @@ const trust = [
     fetchpriority="high"
     class="absolute inset-0 -z-10 h-full w-full object-cover object-center"
   />
-  <!-- Scrims: bottom-up for text, plus a left wash on wide screens -->
+  <!-- Vertical scrim: dark at top and bottom so centered text stays legible -->
   <div
-    class="absolute inset-0 -z-10 bg-gradient-to-t from-asphalt-deep/95 via-asphalt-deep/65 to-asphalt-deep/25"
+    class="absolute inset-0 -z-10 bg-gradient-to-b from-asphalt-deep/80 via-asphalt-deep/45 to-asphalt-deep/90"
   >
   </div>
+  <!-- Left wash for the text column, on every viewport -->
   <div
-    class="absolute inset-0 -z-10 hidden bg-gradient-to-r from-asphalt-deep/85 via-asphalt-deep/35 to-transparent md:block"
+    class="absolute inset-0 -z-10 bg-gradient-to-r from-asphalt-deep/90 via-asphalt-deep/45 to-asphalt-deep/10 md:to-transparent"
   >
   </div>
 
   <div
-    class="mx-auto flex min-h-[42rem] max-w-7xl flex-col justify-center px-5 pt-28 pb-12 sm:px-8 md:min-h-[44rem] md:pb-16 lg:min-h-[88vh]"
+    class="mx-auto flex min-h-[36rem] max-w-7xl flex-col justify-center px-5 pt-28 pb-14 sm:px-8 sm:min-h-[42rem] md:min-h-[44rem] md:pb-16 lg:min-h-[88vh]"
   >
     <div class="max-w-2xl">
       <p class="spec-label text-amber">
