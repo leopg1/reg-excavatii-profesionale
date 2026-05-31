@@ -1,0 +1,56 @@
+---
+import "../styles/global.css";
+import { site } from "../data/site.ts";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = `${site.company} — săpături, fundații și branșamente`,
+  description = "Lucrări de săpătură executate corect: fundații, branșamente apă, canalizare și gaz, săpături electrice, nivelare teren și îndepărtare moluz. Utilaje proprii, doar lucrări reale. La nivel național.",
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+---
+
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#3a3833" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ro_RO" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="format-detection" content="telephone=yes" />
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      const els = document.querySelectorAll<HTMLElement>(".reveal");
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || !("IntersectionObserver" in window)) {
+        els.forEach((e) => e.classList.add("is-visible"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const en of entries) {
+              if (en.isIntersecting) {
+                en.target.classList.add("is-visible");
+                io.unobserve(en.target);
+              }
+            }
+          },
+          { rootMargin: "0px 0px -10% 0px", threshold: 0.05 },
+        );
+        els.forEach((e) => io.observe(e));
+      }
+    </script>
+  </body>
+</html>

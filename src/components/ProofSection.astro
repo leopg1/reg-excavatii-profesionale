@@ -1,0 +1,71 @@
+---
+import Gallery from "./Gallery.astro";
+import Icon from "./Icon.astro";
+import { site } from "../data/site.ts";
+import type { Service } from "../data/services.ts";
+
+interface Props {
+  service: Service;
+  position: number;
+}
+const { service, position } = Astro.props;
+const flip = position % 2 === 1; // alternate text/gallery sides on desktop
+const count = service.photos.length;
+---
+
+<article
+  id={service.slug}
+  class="scroll-mt-24 border-t border-line py-14 first:border-t-0 sm:py-20"
+>
+  <div class="grid items-start gap-x-10 gap-y-7 lg:grid-cols-12">
+    <!-- Text column -->
+    <div
+      class={`lg:col-span-4 ${flip ? "lg:order-2 lg:col-start-9" : "lg:order-1"}`}
+    >
+      <div class="lg:sticky lg:top-24">
+        <div class="flex items-center gap-3">
+          <span
+            class="font-display text-3xl font-extrabold tracking-tight text-line-strong tabular-nums"
+            aria-hidden="true">{service.index}</span
+          >
+          <span class="spec-label">{service.label}</span>
+        </div>
+
+        <h2 class="mt-3 text-[1.9rem] leading-[1.06] font-extrabold text-ink sm:text-4xl">
+          {service.title}
+        </h2>
+
+        <p class="mt-4 text-lg leading-relaxed text-ink">
+          {service.lead}
+        </p>
+        <p class="mt-3 text-[0.98rem] leading-relaxed text-ink-muted">
+          {service.body}
+        </p>
+
+        <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <a
+            href={site.phoneHref}
+            data-call
+            class="group inline-flex items-center gap-2 text-[0.95rem] font-semibold text-amber-strong underline-offset-4 hover:underline"
+          >
+            <Icon name="phone" class="size-4" />
+            Sună pentru ofertă
+            <Icon
+              name="arrow"
+              class="size-3.5 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </a>
+          <span class="spec-label text-line-strong">
+            {count}
+            {count === 1 ? "lucrare" : "lucrări"} reale
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery column -->
+    <div class={`lg:col-span-8 ${flip ? "lg:order-1 lg:col-start-1" : "lg:order-2"}`}>
+      <Gallery photos={service.photos} layout={service.layout} group={service.slug} />
+    </div>
+  </div>
+</article>

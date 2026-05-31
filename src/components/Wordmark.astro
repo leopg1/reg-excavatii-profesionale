@@ -1,0 +1,26 @@
+---
+interface Props {
+  tone?: "onLight" | "onDark";
+  class?: string;
+}
+const { tone = "onLight", class: klass = "" } = Astro.props;
+const ink = tone === "onDark" ? "text-paper" : "text-ink";
+const sub = tone === "onDark" ? "text-paper/60" : "text-ink-faint";
+---
+
+<a
+  href="#top"
+  class={`group inline-flex items-baseline gap-2 ${klass}`}
+  aria-label="REG Excavații Profesionale — acasă"
+>
+  <span
+    class={`font-display text-[1.6rem] leading-none font-extrabold tracking-[-0.04em] ${ink}`}
+  >
+    REG<span class="text-amber-strong">.</span>
+  </span>
+  <span
+    class={`spec-label hidden text-[0.62rem] leading-tight tracking-[0.16em] sm:block ${sub}`}
+  >
+    Excavații<br />Profesionale
+  </span>
+</a>

@@ -1,0 +1,75 @@
+---
+import { Image } from "astro:assets";
+import heroImg from "../assets/hero-flota.png";
+import CallButtons from "./CallButtons.astro";
+import Icon from "./Icon.astro";
+import { site } from "../data/site.ts";
+
+const trust = [
+  "Doar poze reale de pe șantierele noastre",
+  "Utilaje proprii",
+  "Răspuns rapid, la obiect",
+];
+---
+
+<section id="top" class="relative isolate overflow-hidden bg-asphalt-deep">
+  <Image
+    src={heroImg}
+    alt="Flota proprie REG Excavații Profesionale: autoutilitară, autocamion și excavatoare."
+    widths={[768, 1280, 1920, 2560]}
+    sizes="100vw"
+    format="webp"
+    quality={78}
+    loading="eager"
+    fetchpriority="high"
+    class="absolute inset-0 -z-10 h-full w-full object-cover object-center"
+  />
+  <!-- Scrims: bottom-up for text, plus a left wash on wide screens -->
+  <div
+    class="absolute inset-0 -z-10 bg-gradient-to-t from-asphalt-deep/95 via-asphalt-deep/65 to-asphalt-deep/25"
+  >
+  </div>
+  <div
+    class="absolute inset-0 -z-10 hidden bg-gradient-to-r from-asphalt-deep/85 via-asphalt-deep/35 to-transparent md:block"
+  >
+  </div>
+
+  <div
+    class="mx-auto flex min-h-[42rem] max-w-7xl flex-col justify-center px-5 pt-28 pb-12 sm:px-8 md:min-h-[44rem] md:pb-16 lg:min-h-[88vh]"
+  >
+    <div class="max-w-2xl">
+      <p class="spec-label text-amber">
+        {site.legal} · {site.area}
+      </p>
+
+      <h1
+        class="mt-5 text-balance text-[2.55rem] leading-[1.04] font-extrabold tracking-[-0.03em] text-paper sm:text-5xl md:text-6xl"
+      >
+        Lucrări de săpătură executate
+        <span class="text-amber">corect</span>, cu seriozitate
+        și claritate.
+      </h1>
+
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-paper/85">
+        Fundații, branșamente de apă, canalizare și gaz, săpături electrice,
+        nivelare și îndepărtare de moluz. Utilaje proprii, oameni serioși,
+        doar lucrări reale.
+      </p>
+
+      <CallButtons tone="onDark" size="lg" showLabelPhone class="mt-8" />
+
+      <ul
+        class="mt-9 flex flex-wrap gap-x-6 gap-y-2.5 border-t border-paper/15 pt-5"
+      >
+        {
+          trust.map((t) => (
+            <li class="inline-flex items-center gap-2 text-sm font-medium text-paper/80">
+              <Icon name="check" class="size-4 shrink-0 text-amber" />
+              {t}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

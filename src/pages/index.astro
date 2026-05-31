@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import ProofSection from "../components/ProofSection.astro";
+import WhyUs from "../components/WhyUs.astro";
+import ContactBand from "../components/ContactBand.astro";
+import MobileBar from "../components/MobileBar.astro";
+import Lightbox from "../components/Lightbox.astro";
+import { Image } from "astro:assets";
+import introImg from "../assets/hero-santier.png";
+import { services } from "../data/services.ts";
+import { site } from "../data/site.ts";
+---
+
+<Layout>
+  <Header />
+  <main>
+    <Hero />
+
+    <section id="servicii" class="mx-auto max-w-7xl px-5 pt-16 sm:px-8 sm:pt-24">
+      <div class="reveal max-w-3xl">
+        <p class="spec-label">Servicii · 7 categorii</p>
+        <h2 class="mt-3 text-[2.1rem] leading-[1.07] font-extrabold text-ink sm:text-[2.8rem]">
+          Ce săpăm, cu dovada lângă.
+        </h2>
+        <p class="mt-4 text-lg leading-relaxed text-ink-muted">
+          Fiecare serviciu de mai jos vine cu fotografii din proiecte reale,
+          făcute de echipa noastră. Uită-te la lucrări, apoi sună pentru ofertă.
+        </p>
+      </div>
+
+      <figure class="reveal mt-8 sm:mt-12" style="--reveal-delay: 80ms">
+        <Image
+          src={introImg}
+          alt="Autoutilitara și miniexcavatorul REG la un șantier, cu utilajele proprii pregătite de lucru."
+          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width: 1280px) 1216px, 100vw"
+          format="webp"
+          quality={80}
+          loading="lazy"
+          class="h-auto w-full rounded-2xl bg-sunken object-contain ring-1 ring-ink/[0.06]"
+        />
+        <figcaption class="spec-label mt-3 text-ink-faint">
+          Echipa și utilajele REG, pe teren.
+        </figcaption>
+      </figure>
+
+      <div class="mt-12 sm:mt-16">
+        {services.map((service, i) => <ProofSection service={service} position={i} />)}
+      </div>
+    </section>
+
+    <WhyUs />
+    <ContactBand />
+  </main>
+
+  <footer class="border-t border-line bg-paper">
+    <div
+      class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-8"
+    >
+      <p>
+        © {new Date().getFullYear()}
+        {site.legal}. Toate fotografiile sunt din proiecte proprii.
+      </p>
+      <a href="#top" class="font-medium text-ink-muted transition-colors hover:text-ink">
+        Înapoi sus ↑
+      </a>
+    </div>
+  </footer>
+
+  <!-- Bottom spacer so the mobile CTA bar never covers the footer -->
+  <div class="h-16 lg:hidden" aria-hidden="true"></div>
+
+  <MobileBar />
+  <Lightbox />
+</Layout>

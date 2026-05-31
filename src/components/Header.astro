@@ -1,0 +1,46 @@
+---
+import Wordmark from "./Wordmark.astro";
+import Icon from "./Icon.astro";
+import { site } from "../data/site.ts";
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-40 border-b border-line/70 bg-paper/85 backdrop-blur-md transition-shadow duration-300"
+  data-header
+>
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8"
+  >
+    <Wordmark />
+
+    <nav class="hidden items-center gap-7 lg:flex" aria-label="Secțiuni">
+      <a href="#servicii" class="text-sm font-medium text-ink-muted transition-colors hover:text-ink">Servicii</a>
+      <a href="#de-ce-noi" class="text-sm font-medium text-ink-muted transition-colors hover:text-ink">De ce noi</a>
+      <a href="#contact" class="text-sm font-medium text-ink-muted transition-colors hover:text-ink">Contact</a>
+    </nav>
+
+    <a
+      href={site.phoneHref}
+      class="inline-flex items-center gap-2 rounded-full bg-amber px-4 py-2 text-sm font-semibold text-asphalt-deep transition-colors duration-200 hover:bg-amber-strong hover:text-paper"
+      data-call
+    >
+      <Icon name="phone" class="size-4 shrink-0" />
+      <span class="hidden font-mono text-[0.82rem] tracking-tight tabular-nums sm:inline">
+        {site.phoneDisplay}
+      </span>
+      <span class="sm:hidden">Sună</span>
+    </a>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  if (header) {
+    const onScroll = () => {
+      header.classList.toggle("shadow-[0_6px_24px_-12px_oklch(0.22_0.013_62/0.4)]", window.scrollY > 24);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>

@@ -1,0 +1,59 @@
+---
+import CallButtons from "./CallButtons.astro";
+import Icon from "./Icon.astro";
+import { site } from "../data/site.ts";
+---
+
+<section id="contact" class="scroll-mt-20 bg-asphalt-deep text-paper">
+  <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+    <div class="grid gap-x-12 gap-y-10 lg:grid-cols-2 lg:items-end">
+      <div class="reveal">
+        <p class="spec-label text-amber">Contact</p>
+        <h2 class="mt-3 text-balance text-[2.1rem] leading-[1.06] font-extrabold text-paper sm:text-5xl">
+          Spune-ne ce ai de săpat.
+        </h2>
+        <p class="mt-5 max-w-md text-lg leading-relaxed text-paper/75">
+          {site.tagline} Sună sau scrie pe WhatsApp și revenim cu o ofertă la obiect.
+        </p>
+
+        <a
+          href={site.phoneHref}
+          data-call
+          class="group mt-8 inline-flex items-center gap-3 text-paper"
+        >
+          <span class="grid size-11 place-items-center rounded-full bg-amber text-asphalt-deep transition-transform duration-300 ease-out group-hover:scale-105">
+            <Icon name="phone" class="size-5" />
+          </span>
+          <span class="font-display text-3xl font-extrabold tracking-tight tabular-nums sm:text-4xl">
+            {site.phoneDisplay}
+          </span>
+        </a>
+      </div>
+
+      <div class="reveal lg:justify-self-end" style="--reveal-delay: 100ms">
+        <CallButtons tone="onDark" size="lg" />
+
+        <dl class="mt-8 grid gap-x-8 gap-y-5 border-t border-asphalt-line pt-7 sm:grid-cols-2">
+          <div>
+            <dt class="spec-label text-paper/45">Acoperire</dt>
+            <dd class="mt-1.5 flex items-center gap-2 font-medium text-paper">
+              <Icon name="check" class="size-4 text-amber" />
+              {site.area}
+            </dd>
+          </div>
+          <div>
+            <dt class="spec-label text-paper/45">Firmă</dt>
+            <dd class="mt-1.5 font-medium text-paper">{site.legal}</dd>
+          </div>
+          <div class="sm:col-span-2">
+            <dt class="spec-label text-paper/45">Ce facem</dt>
+            <dd class="mt-1.5 leading-relaxed text-paper/75">
+              Fundații, branșamente apă / canalizare / gaz, săpături electrice,
+              nivelare teren, îndepărtare moluz.
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>

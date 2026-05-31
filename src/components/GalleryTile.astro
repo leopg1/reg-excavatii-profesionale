@@ -1,0 +1,52 @@
+---
+import { Image } from "astro:assets";
+import type { ServicePhoto } from "../data/services.ts";
+
+interface Props {
+  photo: ServicePhoto;
+  full: string;
+  class?: string;
+  sizes?: string;
+  widths?: number[];
+}
+const {
+  photo,
+  full,
+  class: klass = "",
+  sizes = "(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw",
+  widths = [400, 800, 1200],
+} = Astro.props;
+---
+
+<button
+  type="button"
+  data-tile
+  data-full={full}
+  data-alt={photo.alt}
+  aria-label={`Mărește imaginea: ${photo.alt}`}
+  class={`group relative block w-full overflow-hidden rounded-xl bg-sunken ring-1 ring-ink/[0.06] ring-inset ${klass}`}
+>
+  <Image
+    src={photo.src}
+    alt={photo.alt}
+    widths={widths}
+    sizes={sizes}
+    format="webp"
+    quality={76}
+    loading="lazy"
+    class="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.045]"
+  />
+  <span
+    aria-hidden="true"
+    class="pointer-events-none absolute right-2.5 bottom-2.5 grid size-8 place-items-center rounded-full bg-asphalt-deep/55 text-paper opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100"
+  >
+    <svg viewBox="0 0 24 24" class="size-4" fill="none">
+      <path
+        d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      ></path>
+    </svg>
+  </span>
+</button>

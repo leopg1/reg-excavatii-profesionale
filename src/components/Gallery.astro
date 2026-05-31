@@ -1,0 +1,143 @@
+---
+import { getImage } from "astro:assets";
+import GalleryTile from "./GalleryTile.astro";
+import type { ServicePhoto, GalleryLayout } from "../data/services.ts";
+
+interface Props {
+  photos: ServicePhoto[];
+  layout: GalleryLayout;
+  group: string;
+}
+const { photos, layout, group } = Astro.props;
+
+// Large variants used only when a photo is opened in the lightbox.
+const fulls = await Promise.all(
+  photos.map((p) =>
+    getImage({ src: p.src, width: 1800, format: "webp", quality: 82 }),
+  ),
+);
+const items = photos.map((photo, i) => ({ photo, full: fulls[i].src }));
+const [lead, ...rest] = items;
+---
+
+<div data-gallery={group} class="reveal" style="--reveal-delay: 90ms">
+  {
+    layout === "duo" && (
+      <div class="grid grid-cols-2 gap-3 sm:gap-4">
+        {items.map((it) => (
+          <GalleryTile photo={it.photo} full={it.full} class="aspect-[4/5]" />
+        ))}
+      </div>
+    )
+  }
+
+  {
+    layout === "triptych" && (
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+        {items.map((it, i) => (
+          <GalleryTile
+            photo={it.photo}
+            full={it.full}
+            class={
+              i === 0
+                ? "col-span-2 aspect-[16/10] sm:col-span-1 sm:aspect-[3/4]"
+                : "aspect-[3/4]"
+            }
+          />
+        ))}
+      </div>
+    )
+  }
+
+  {
+    layout === "stack-wide" && (
+      <div class="flex flex-col gap-3 sm:gap-4">
+        <GalleryTile
+          photo={lead.photo}
+          full={lead.full}
+          sizes="(min-width: 1024px) 70vw, 92vw"
+          widths={[640, 1024, 1600]}
+          class="aspect-[16/9]"
+        />
+        {rest.length > 0 && (
+          <div class="grid grid-cols-3 gap-3 sm:gap-4">
+            {rest.map((it) => (
+              <GalleryTile photo={it.photo} full={it.full} class="aspect-[4/3]" />
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  {
+    layout === "quad" && (
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        {items.map((it) => (
+          <GalleryTile
+            photo={it.photo}
+            full={it.full}
+            sizes="(min-width: 1024px) 23vw, 45vw"
+            class="aspect-[3/4]"
+          />
+        ))}
+      </div>
+    )
+  }
+
+  {
+    layout === "grid2" && (
+      <div class="grid grid-cols-2 gap-3 sm:gap-4">
+        {items.map((it) => (
+          <GalleryTile
+            photo={it.photo}
+            full={it.full}
+            sizes="(min-width: 1024px) 38vw, 45vw"
+            class="aspect-[4/3]"
+          />
+        ))}
+      </div>
+    )
+  }
+
+  {
+    layout === "feature" && (
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-12">
+        <GalleryTile
+          photo={lead.photo}
+          full={lead.full}
+          sizes="(min-width: 1024px) 45vw, 92vw"
+          widths={[640, 1024, 1400]}
+          class="col-span-2 aspect-[3/2] lg:col-span-7"
+        />
+        {rest[0] && (
+          <GalleryTile
+            photo={rest[0].photo}
+            full={rest[0].full}
+            class="aspect-[3/2] lg:col-span-5"
+          />
+        )}
+        {rest.slice(1).map((it) => (
+          <GalleryTile photo={it.photo} full={it.full} class="aspect-[4/3] lg:col-span-4" />
+        ))}
+      </div>
+    )
+  }
+
+  {
+    layout === "mosaic" && (
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <GalleryTile
+          photo={lead.photo}
+          full={lead.full}
+          sizes="(min-width: 1024px) 45vw, 92vw"
+          widths={[640, 1024, 1400]}
+          class="col-span-2 aspect-[4/5] lg:row-span-2 lg:aspect-auto"
+        />
+        {rest.map((it) => (
+          <GalleryTile photo={it.photo} full={it.full} class="aspect-[4/3]" />
+        ))}
+      </div>
+    )
+  }
+</div>

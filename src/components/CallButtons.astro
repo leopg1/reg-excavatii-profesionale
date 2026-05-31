@@ -1,0 +1,56 @@
+---
+import Icon from "./Icon.astro";
+import { site } from "../data/site.ts";
+
+interface Props {
+  tone?: "onLight" | "onDark";
+  size?: "md" | "lg";
+  showLabelPhone?: boolean;
+  class?: string;
+}
+const {
+  tone = "onLight",
+  size = "md",
+  showLabelPhone = false,
+  class: klass = "",
+} = Astro.props;
+
+const pad = size === "lg" ? "px-6 py-3.5 text-base" : "px-5 py-2.5 text-sm";
+const gap = size === "lg" ? "gap-3" : "gap-2.5";
+
+// Primary = call (amber). Secondary = WhatsApp (asphalt or outline).
+const primary =
+  "bg-amber text-asphalt-deep font-semibold shadow-[0_1px_0_oklch(0.6_0.16_58)] hover:bg-amber-strong hover:text-paper transition-colors duration-200";
+const secondaryLight =
+  "bg-asphalt text-paper font-medium hover:bg-asphalt-deep transition-colors duration-200";
+const secondaryDark =
+  "bg-paper/10 text-paper font-medium ring-1 ring-inset ring-paper/25 hover:bg-paper/15 transition-colors duration-200";
+---
+
+<div class={`flex flex-wrap items-center ${gap} ${klass}`}>
+  <a
+    href={site.phoneHref}
+    class={`group inline-flex items-center gap-2.5 rounded-full ${pad} ${primary}`}
+    data-call
+  >
+    <Icon name="phone" class="size-[1.1em] shrink-0" />
+    <span>Sună acum</span>
+    {
+      showLabelPhone && (
+        <span class="font-mono text-[0.85em] font-normal tabular-nums tracking-tight opacity-80">
+          {site.phoneDisplay}
+        </span>
+      )
+    }
+  </a>
+  <a
+    href={site.whatsappHref}
+    target="_blank"
+    rel="noopener"
+    class={`inline-flex items-center gap-2.5 rounded-full ${pad} ${tone === "onDark" ? secondaryDark : secondaryLight}`}
+    data-wa
+  >
+    <Icon name="whatsapp" class="size-[1.15em] shrink-0" />
+    <span>WhatsApp</span>
+  </a>
+</div>

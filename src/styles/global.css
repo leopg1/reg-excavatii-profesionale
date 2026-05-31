@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/* Self-hosted variable fonts (no external requests, full Romanian diacritics) */
+@import "@fontsource-variable/archivo";
+@import "@fontsource-variable/hanken-grotesk";
+@import "@fontsource-variable/geist-mono";
+
+@theme {
+  --font-display: "Archivo Variable", system-ui, sans-serif;
+  --font-body: "Hanken Grotesk Variable", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+
+  /* Warm concrete neutrals — never pure black or white */
+  --color-paper: oklch(0.971 0.006 76);
+  --color-paper-raised: oklch(0.992 0.004 76);
+  --color-sunken: oklch(0.935 0.009 70);
+  --color-line: oklch(0.882 0.011 70);
+  --color-line-strong: oklch(0.8 0.013 68);
+
+  --color-ink: oklch(0.225 0.013 62);
+  --color-ink-muted: oklch(0.445 0.012 62);
+  --color-ink-faint: oklch(0.565 0.011 64);
+
+  /* Machinery amber — lifted from the CAT/SANY equipment in every photo */
+  --color-amber: oklch(0.748 0.158 67);
+  --color-amber-strong: oklch(0.672 0.168 58);
+  --color-amber-tint: oklch(0.95 0.035 78);
+
+  /* Asphalt — the one committed-dark surface */
+  --color-asphalt: oklch(0.247 0.013 72);
+  --color-asphalt-deep: oklch(0.188 0.011 72);
+  --color-asphalt-line: oklch(0.34 0.012 72);
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* room for the sticky header when jumping to anchors */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-amber);
+    color: var(--color-asphalt-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-amber-strong);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+}
+
+@layer components {
+  /* Small uppercase spec label used to tag every proof section */
+  .spec-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+
+  /* Scroll-reveal: hidden until observed, then eased in */
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.75rem);
+    transition:
+      opacity 0.7s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

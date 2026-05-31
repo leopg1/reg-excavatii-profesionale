@@ -1,0 +1,152 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<div
+  id="lightbox"
+  class="fixed inset-0 z-50 hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Vizualizare fotografie"
+>
+  <div data-lb-backdrop class="absolute inset-0 bg-asphalt-deep/92 backdrop-blur-sm"></div>
+
+  <button
+    type="button"
+    data-lb-close
+    aria-label="Închide"
+    class="absolute top-4 right-4 z-10 grid size-11 place-items-center rounded-full bg-paper/10 text-paper ring-1 ring-paper/20 ring-inset transition-colors hover:bg-paper/20"
+  >
+    <Icon name="close" class="size-5" />
+  </button>
+
+  <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-4 sm:p-8">
+    <figure class="flex min-h-0 max-w-6xl flex-col items-center">
+      <img
+        data-lb-img
+        alt=""
+        class="max-h-[78vh] w-auto max-w-full rounded-lg object-contain shadow-2xl"
+      />
+      <figcaption
+        data-lb-caption
+        class="mt-3 max-w-2xl text-center text-sm leading-relaxed text-paper/75"
+      >
+      </figcaption>
+    </figure>
+  </div>
+
+  <button
+    type="button"
+    data-lb-prev
+    aria-label="Imaginea anterioară"
+    class="absolute top-1/2 left-3 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-paper/10 text-paper ring-1 ring-paper/20 ring-inset transition-colors hover:bg-paper/20 sm:left-6"
+  >
+    <Icon name="prev" class="size-5" />
+  </button>
+  <button
+    type="button"
+    data-lb-next
+    aria-label="Imaginea următoare"
+    class="absolute top-1/2 right-3 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-paper/10 text-paper ring-1 ring-paper/20 ring-inset transition-colors hover:bg-paper/20 sm:right-6"
+  >
+    <Icon name="next" class="size-5" />
+  </button>
+
+  <div
+    data-lb-counter
+    class="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-xs tracking-widest text-paper/60 tabular-nums"
+  >
+  </div>
+</div>
+
+<script>
+  type Tile = { full: string; alt: string; el: HTMLElement };
+
+  const lb = document.getElementById("lightbox");
+  if (lb) {
+    const img = lb.querySelector<HTMLImageElement>("[data-lb-img]")!;
+    const caption = lb.querySelector<HTMLElement>("[data-lb-caption]")!;
+    const counter = lb.querySelector<HTMLElement>("[data-lb-counter]")!;
+    const btnPrev = lb.querySelector<HTMLElement>("[data-lb-prev]")!;
+    const btnNext = lb.querySelector<HTMLElement>("[data-lb-next]")!;
+
+    let group: Tile[] = [];
+    let idx = 0;
+    let opener: HTMLElement | null = null;
+
+    const render = () => {
+      const t = group[idx];
+      img.src = t.full;
+      img.alt = t.alt;
+      caption.textContent = t.alt;
+      counter.textContent = `${idx + 1} / ${group.length}`;
+      const multi = group.length > 1;
+      btnPrev.style.display = multi ? "" : "none";
+      btnNext.style.display = multi ? "" : "none";
+    };
+
+    const open = (tiles: Tile[], start: number, from: HTMLElement) => {
+      group = tiles;
+      idx = start;
+      opener = from;
+      render();
+      lb.classList.remove("hidden");
+      document.documentElement.style.overflow = "hidden";
+      (lb.querySelector("[data-lb-close]") as HTMLElement)?.focus();
+    };
+
+    const close = () => {
+      lb.classList.add("hidden");
+      document.documentElement.style.overflow = "";
+      img.removeAttribute("src");
+      opener?.focus();
+    };
+
+    const go = (step: number) => {
+      idx = (idx + step + group.length) % group.length;
+      render();
+    };
+
+    // Wire up every gallery group on the page.
+    document.querySelectorAll<HTMLElement>("[data-gallery]").forEach((g) => {
+      const tiles = Array.from(
+        g.querySelectorAll<HTMLElement>("[data-tile]"),
+      ).map((el) => ({
+        full: el.dataset.full || "",
+        alt: el.dataset.alt || "",
+        el,
+      }));
+      tiles.forEach((t, i) =>
+        t.el.addEventListener("click", () => open(tiles, i, t.el)),
+      );
+    });
+
+    lb.querySelector("[data-lb-close]")?.addEventListener("click", close);
+    lb.querySelector("[data-lb-backdrop]")?.addEventListener("click", close);
+    btnPrev.addEventListener("click", () => go(-1));
+    btnNext.addEventListener("click", () => go(1));
+
+    document.addEventListener("keydown", (e) => {
+      if (lb.classList.contains("hidden")) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") go(-1);
+      else if (e.key === "ArrowRight") go(1);
+    });
+
+    // Basic touch swipe
+    let startX = 0;
+    lb.addEventListener(
+      "touchstart",
+      (e) => (startX = e.touches[0].clientX),
+      { passive: true },
+    );
+    lb.addEventListener(
+      "touchend",
+      (e) => {
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 50 && group.length > 1) go(dx < 0 ? 1 : -1);
+      },
+      { passive: true },
+    );
+  }
+</script>
