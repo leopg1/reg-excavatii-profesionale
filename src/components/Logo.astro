@@ -1,0 +1,44 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo-reg.png";
+
+interface Props {
+  class?: string;
+  link?: boolean;
+  eager?: boolean;
+}
+const { class: klass = "h-14 w-auto", link = true, eager = false } = Astro.props;
+const widths = [140, 220, 320, 440];
+---
+
+{
+  link ? (
+    <a
+      href="#top"
+      class="inline-flex shrink-0"
+      aria-label="REG Excavații Profesionale — acasă"
+    >
+      <Image
+        src={logo}
+        alt=""
+        widths={widths}
+        sizes="220px"
+        format="webp"
+        quality={88}
+        loading={eager ? "eager" : "lazy"}
+        class={klass}
+      />
+    </a>
+  ) : (
+    <Image
+      src={logo}
+      alt="REG Excavații Profesionale"
+      widths={widths}
+      sizes="220px"
+      format="webp"
+      quality={88}
+      loading={eager ? "eager" : "lazy"}
+      class={klass}
+    />
+  )
+}

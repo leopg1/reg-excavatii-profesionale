@@ -43,7 +43,7 @@
   html {
     scroll-behavior: smooth;
     /* room for the sticky header when jumping to anchors */
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 7.5rem;
     -webkit-text-size-adjust: 100%;
   }
 

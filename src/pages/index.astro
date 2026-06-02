@@ -7,6 +7,7 @@ import WhyUs from "../components/WhyUs.astro";
 import ContactBand from "../components/ContactBand.astro";
 import MobileBar from "../components/MobileBar.astro";
 import Lightbox from "../components/Lightbox.astro";
+import Logo from "../components/Logo.astro";
 import { Image } from "astro:assets";
 import introImg from "../assets/hero-santier.png";
 import { services } from "../data/services.ts";
@@ -57,12 +58,15 @@ import { site } from "../data/site.ts";
 
   <footer class="border-t border-line bg-paper">
     <div
-      class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-sm text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-8"
+      class="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 text-sm text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-8"
     >
-      <p>
-        © {new Date().getFullYear()}
-        {site.legal}. Toate fotografiile sunt din proiecte proprii.
-      </p>
+      <div class="flex items-center gap-4">
+        <Logo class="h-14 w-auto" link={false} />
+        <p>
+          © {new Date().getFullYear()}
+          {site.legal}. Toate fotografiile sunt din proiecte proprii.
+        </p>
+      </div>
       <a href="#top" class="font-medium text-ink-muted transition-colors hover:text-ink">
         Înapoi sus ↑
       </a>
